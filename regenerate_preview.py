@@ -99,6 +99,9 @@ def parse_text(text: str) -> dict:
     legend_lines: list[str] = []
 
     for line in lines:
+        line = normalize_text(line)
+        if re.fullmatch(r"fi(\s+fi)*", line, flags=re.I):
+            continue
         if re.search(r"--\s*\d+\s*of\s*\d+--", line, re.I):
             continue
         if re.match(r"^A\b.*:\s*", line) and "Glutenhaltiges" in line:
@@ -121,10 +124,20 @@ def parse_text(text: str) -> dict:
             sections.setdefault(current_section, []).append(parse_item_line(buffer))
             buffer = ""
 
-    if buffer:
+    if buffer and "€" in buffer:
         sections.setdefault(current_section or "Speisekarte", []).append(parse_item_line(buffer))
 
     return {"sections": sections, "legend": ""}
+
+
+def normalize_text(text: str) -> str:
+    return (
+        text.replace("ﬁ", "fi")
+        .replace("ﬂ", "fl")
+        .replace("ﬀ", "ff")
+        .replace("ﬃ", "ffi")
+        .replace("ﬄ", "ffl")
+    )
 
 
 def extract_date_from_filename() -> str:

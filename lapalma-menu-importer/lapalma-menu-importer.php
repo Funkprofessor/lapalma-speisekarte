@@ -219,6 +219,10 @@ function lapalma_menu_parse_text($text)
     $legend_lines = array();
 
     foreach ($lines as $line) {
+        $line = lapalma_menu_normalize_text($line);
+        if (preg_match('/^fi(\s+fi)*$/i', $line)) {
+            continue;
+        }
         if (preg_match('/--\s*\d+\s*of\s*\d+--/i', $line)) {
             continue;
         }
@@ -252,13 +256,27 @@ function lapalma_menu_parse_text($text)
     }
 
     if ($buffer !== '') {
-        $sections = lapalma_menu_push_item($sections, $current_section, $buffer);
+        if (strpos($buffer, '€') !== false) {
+            $sections = lapalma_menu_push_item($sections, $current_section, $buffer);
+        }
     }
 
     return array(
         'sections' => $sections,
         'legend' => '',
     );
+}
+
+function lapalma_menu_normalize_text($text)
+{
+    $replacements = array(
+        'ﬁ' => 'fi',
+        'ﬂ' => 'fl',
+        'ﬀ' => 'ff',
+        'ﬃ' => 'ffi',
+        'ﬄ' => 'ffl',
+    );
+    return str_replace(array_keys($replacements), array_values($replacements), $text);
 }
 
 function lapalma_menu_push_item($sections, $section, $line)
