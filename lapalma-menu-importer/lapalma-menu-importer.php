@@ -223,7 +223,6 @@ function lapalma_menu_parse_text($text)
             continue;
         }
         if (preg_match('/^A\b.*:\s*/', $line) && strpos($line, 'Glutenhaltiges') !== false) {
-            $legend_lines[] = $line;
             continue;
         }
         if (in_array($line, $section_titles, true)) {
@@ -258,7 +257,7 @@ function lapalma_menu_parse_text($text)
 
     return array(
         'sections' => $sections,
-        'legend' => trim(implode(' ', $legend_lines)),
+        'legend' => '',
     );
 }
 
@@ -370,7 +369,6 @@ function lapalma_menu_strlen($text)
 function lapalma_menu_render_html($data, $section_filter = '', $show_date = false, $show_title = true)
 {
     $sections = $data['sections'] ?? array();
-    $legend = $data['legend'] ?? '';
     $date = $show_date ? (string) get_option(LAPALMA_MENU_DATE_OPTION, '') : '';
 
     $html = '<div class="lapalma-menu">';
@@ -400,9 +398,6 @@ function lapalma_menu_render_html($data, $section_filter = '', $show_date = fals
             $html .= '</div>';
         }
         $html .= '</div>';
-    }
-    if ($legend !== '') {
-        $html .= '<div class="lapalma-menu-legend">' . esc_html($legend) . '</div>';
     }
     $html .= '</div>';
 

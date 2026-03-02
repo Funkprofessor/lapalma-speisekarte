@@ -128,31 +128,34 @@
     .lapalma-menu-item {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto 1px;
+        row-gap: 4px;
+        padding-bottom: 28px;
     }
 
     .lapalma-menu-item-price {
-        text-align: left;
+        text-align: right;
         grid-column: 1;
         grid-row: 1;
     }
 
     .lapalma-menu-item::after {
         grid-row: 4;
+        margin-top: 14px;
     }
 
     .lapalma-menu-item-title {
-        grid-row: 2;
+        grid-row: 1;
         border-bottom: none;
-        padding-bottom: 0;
+        padding-bottom: 2px;
     }
 
     .lapalma-menu-item-detail {
-        grid-row: 3;
+        grid-row: 2;
     }
 
     .lapalma-menu-item-allergens {
         grid-column: 1;
-        grid-row: 4;
+        grid-row: 3;
         text-align: left;
     }
 

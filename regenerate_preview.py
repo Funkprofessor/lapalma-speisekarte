@@ -124,7 +124,7 @@ def parse_text(text: str) -> dict:
     if buffer:
         sections.setdefault(current_section or "Speisekarte", []).append(parse_item_line(buffer))
 
-    return {"sections": sections, "legend": " ".join(legend_lines).strip()}
+    return {"sections": sections, "legend": ""}
 
 
 def extract_date_from_filename() -> str:
@@ -172,7 +172,6 @@ def extract_date_from_filename() -> str:
 
 def render_html(data: dict, css: str, date: str) -> str:
     sections = data.get("sections", {})
-    legend = data.get("legend", "")
     html = [
         "<!doctype html>",
         '<html lang="de">',
@@ -205,8 +204,6 @@ def render_html(data: dict, css: str, date: str) -> str:
             html.append("        </div>")
         html.append("      </div>")
 
-    if legend:
-        html.append(f'      <div class="lapalma-menu-legend">{escape(legend)}</div>')
     html.extend(["    </div>", "  </body>", "</html>"])
     return "\n".join(html)
 
