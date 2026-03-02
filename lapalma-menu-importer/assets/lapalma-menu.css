@@ -1,0 +1,172 @@
+.lapalma-menu {
+    display: block;
+    margin: 0 auto;
+    max-width: 860px;
+    padding: 16px 16px 32px;
+    color: #1f1f1f;
+    font-family: inherit;
+}
+
+.lapalma-menu-section-title {
+    position: relative;
+    margin: 44px 0 22px;
+    padding: 12px 0;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.lapalma-menu-date {
+    margin: 8px 0 20px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 12px;
+    color: #4a4a4a;
+}
+
+.lapalma-menu-section-title::before,
+.lapalma-menu-section-title::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 120px;
+    height: 1px;
+    background: rgba(197, 142, 90, 0.7);
+    transform: translateX(-50%);
+}
+
+.lapalma-menu-section-title::before {
+    top: 0;
+}
+
+.lapalma-menu-section-title::after {
+    bottom: 0;
+}
+
+.lapalma-menu-section {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 64px;
+}
+
+.lapalma-menu-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto 1px;
+    column-gap: 16px;
+    row-gap: 2px;
+    align-items: start;
+    padding-bottom: 12px;
+}
+
+.lapalma-menu-item::after {
+    content: "";
+    grid-column: 1 / -1;
+    grid-row: 3;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.2);
+    margin-top: 8px;
+}
+
+.lapalma-menu-item-title {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.2;
+    padding-bottom: 4px;
+    margin: 0;
+}
+
+.lapalma-menu-item-detail {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    color: #6b6b6b;
+    margin: 0;
+}
+
+.lapalma-menu-item-allergens {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 12px;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    color: #6b6b6b;
+    text-align: right;
+    align-self: start;
+    margin: 0;
+}
+
+.lapalma-menu-item-price {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 19px;
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+    align-self: center;
+    padding-bottom: 8px;
+    color: #c0824a;
+}
+
+.lapalma-menu-legend {
+    margin-top: 32px;
+    font-size: 12px;
+    color: #666666;
+    line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+    .lapalma-menu-item {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto 1px;
+    }
+
+    .lapalma-menu-item-price {
+        text-align: left;
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .lapalma-menu-item::after {
+        grid-row: 4;
+    }
+
+    .lapalma-menu-item-title {
+        grid-row: 2;
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .lapalma-menu-item-detail {
+        grid-row: 3;
+    }
+
+    .lapalma-menu-item-allergens {
+        grid-column: 1;
+        grid-row: 4;
+        text-align: left;
+    }
+
+    .lapalma-menu-section-title {
+        font-size: 18px;
+    }
+
+    .lapalma-menu-item-title,
+    .lapalma-menu-item-price {
+        font-size: 16px;
+    }
+
+    .lapalma-menu-section {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}

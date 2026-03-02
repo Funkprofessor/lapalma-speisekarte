@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <title>La Palma Speisekarte Vorschau</title>
+    <style>
+.lapalma-menu {
+    display: block;
+    margin: 0 auto;
+    max-width: 860px;
+    padding: 16px 16px 32px;
+    color: #1f1f1f;
+    font-family: "Georgia", "Times New Roman", serif;
+}
+
+.lapalma-menu-section-title {
+    position: relative;
+    margin: 44px 0 22px;
+    padding: 12px 0;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.lapalma-menu-date {
+    margin: 8px 0 20px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 12px;
+    color: #4a4a4a;
+}
+
+.lapalma-menu-section-title::before,
+.lapalma-menu-section-title::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 120px;
+    height: 1px;
+    background: rgba(197, 142, 90, 0.7);
+    transform: translateX(-50%);
+}
+
+.lapalma-menu-section-title::before {
+    top: 0;
+}
+
+.lapalma-menu-section-title::after {
+    bottom: 0;
+}
+
+.lapalma-menu-section {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 64px;
+}
+
+.lapalma-menu-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto 1px;
+    column-gap: 16px;
+    row-gap: 2px;
+    align-items: start;
+    padding-bottom: 12px;
+}
+
+.lapalma-menu-item::after {
+    content: "";
+    grid-column: 1 / -1;
+    grid-row: 3;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.2);
+    margin-top: 8px;
+}
+
+.lapalma-menu-item-title {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.2;
+    padding-bottom: 4px;
+    margin: 0;
+}
+
+.lapalma-menu-item-detail {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    color: #6b6b6b;
+    margin: 0;
+}
+
+.lapalma-menu-item-allergens {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 12px;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    color: #6b6b6b;
+    text-align: right;
+    align-self: start;
+    margin: 0;
+}
+
+.lapalma-menu-item-price {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 19px;
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+    align-self: center;
+    padding-bottom: 8px;
+    color: #c0824a;
+}
+
+.lapalma-menu-legend {
+    margin-top: 32px;
+    font-size: 12px;
+    color: #666666;
+    line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+    .lapalma-menu-item {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto 1px;
+    }
+
+    .lapalma-menu-item-price {
+        text-align: left;
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .lapalma-menu-item::after {
+        grid-row: 4;
+    }
+
+    .lapalma-menu-item-title {
+        grid-row: 2;
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .lapalma-menu-item-detail {
+        grid-row: 3;
+    }
+
+    .lapalma-menu-item-allergens {
+        grid-column: 1;
+        grid-row: 4;
+        text-align: left;
+    }
+
+    .lapalma-menu-section-title {
+        font-size: 18px;
+    }
+
+    .lapalma-menu-item-title,
+    .lapalma-menu-item-price {
+        font-size: 16px;
+    }
+
+    .lapalma-menu-section {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="lapalma-menu">
+      <div class="lapalma-menu-date">vom 27. Februar 2026</div>
+      <h2 class="lapalma-menu-section-title">Vorspeisen</h2>
+      <div class="lapalma-menu-section">
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Vitello Tonnato</div>
+          <div class="lapalma-menu-item-allergens">A.D.I.</div>
+          <div class="lapalma-menu-item-price">19 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Gemischtes Mediterranes Gemüse</div>
+          <div class="lapalma-menu-item-detail">(Vegetarisch)</div>
+          <div class="lapalma-menu-item-allergens">D.B.</div>
+          <div class="lapalma-menu-item-price">16,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Cardoncelli-Pilze</div>
+          <div class="lapalma-menu-item-detail">auf Kürbis-Carpaccio mit Pecorino Creme</div>
+          <div class="lapalma-menu-item-allergens">B.D.</div>
+          <div class="lapalma-menu-item-price">16,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Gebackener Ziegenkäse</div>
+          <div class="lapalma-menu-item-detail">auf Radicchio-Trevisano mit Honig</div>
+          <div class="lapalma-menu-item-allergens">B.D.</div>
+          <div class="lapalma-menu-item-price">15,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Skrei-Tatar auf Avocado</div>
+          <div class="lapalma-menu-item-detail">mit Karamellisierte Tropea-Zwiebeln</div>
+          <div class="lapalma-menu-item-allergens">D.A.R.</div>
+          <div class="lapalma-menu-item-price">21,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Burrata Käse</div>
+          <div class="lapalma-menu-item-detail">auf Tomaten-Fenchel-Creme</div>
+          <div class="lapalma-menu-item-allergens">B.D.</div>
+          <div class="lapalma-menu-item-price">16,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Rinderfilet-Carpaccio</div>
+          <div class="lapalma-menu-item-detail">mit Champignons, Rucola und Parmesan</div>
+          <div class="lapalma-menu-item-allergens">D.B.</div>
+          <div class="lapalma-menu-item-price">19,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Gratinierte Jakobsmuscheln</div>
+          <div class="lapalma-menu-item-detail">mit Steinpilzen und Knoblauchbrot</div>
+          <div class="lapalma-menu-item-allergens">D.A.B.</div>
+          <div class="lapalma-menu-item-price">24,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Gebratene Garnelen</div>
+          <div class="lapalma-menu-item-detail">in Knoblauchöl (Pikant)</div>
+          <div class="lapalma-menu-item-allergens">D.A.B.</div>
+          <div class="lapalma-menu-item-price">19 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Kartoffel-Lauch-Creme-Suppe</div>
+          <div class="lapalma-menu-item-detail">mit Lachs</div>
+          <div class="lapalma-menu-item-allergens">D.A.B.</div>
+          <div class="lapalma-menu-item-price">9,50 €</div>
+        </div>
+      </div>
+      <h2 class="lapalma-menu-section-title">Nudelgerichte</h2>
+      <div class="lapalma-menu-section">
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Fusilloni (Spiralnudeln)</div>
+          <div class="lapalma-menu-item-detail">mit Thunfisch, Kapern, Oliven und Cherry-Tomaten</div>
+          <div class="lapalma-menu-item-allergens">D.A.B.</div>
+          <div class="lapalma-menu-item-price">20,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Pappardelle</div>
+          <div class="lapalma-menu-item-detail">mit Steinpilzen und grünem Spargel</div>
+          <div class="lapalma-menu-item-allergens">B.D.</div>
+          <div class="lapalma-menu-item-price">21 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Rote Cestini</div>
+          <div class="lapalma-menu-item-detail">mit Kalbfleisch, Käse Füllung und Walnuss-Sauce</div>
+          <div class="lapalma-menu-item-allergens">D.C.B.</div>
+          <div class="lapalma-menu-item-price">18,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Paccheri (Röhrchennudeln)</div>
+          <div class="lapalma-menu-item-detail">mit Auberginen-Caponata und Mozzarella</div>
+          <div class="lapalma-menu-item-allergens">B.D.</div>
+          <div class="lapalma-menu-item-price">18,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Tagliatelle</div>
+          <div class="lapalma-menu-item-detail">mit Schwertfisch, Cherry-Tomaten und Minze</div>
+          <div class="lapalma-menu-item-allergens">D.A.B.</div>
+          <div class="lapalma-menu-item-price">19,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Tagliolini</div>
+          <div class="lapalma-menu-item-detail">mit Schwarzen Trüffel</div>
+          <div class="lapalma-menu-item-allergens">B.D.</div>
+          <div class="lapalma-menu-item-price">27,50 €</div>
+        </div>
+      </div>
+      <h2 class="lapalma-menu-section-title">Hauptgerichte</h2>
+      <div class="lapalma-menu-section">
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Skrei-Filet</div>
+          <div class="lapalma-menu-item-detail">auf Safran-Sauce mit Steinpilz-Risotto</div>
+          <div class="lapalma-menu-item-allergens">D.B.A.</div>
+          <div class="lapalma-menu-item-price">34 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Doraden Filets</div>
+          <div class="lapalma-menu-item-detail">vom Grill mit Kräuteröl, Blattspinat und Kartoffeln</div>
+          <div class="lapalma-menu-item-allergens">D.A.B.</div>
+          <div class="lapalma-menu-item-price">29,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Schwertfisch Filet</div>
+          <div class="lapalma-menu-item-detail">mit Artischocken und Rosmarin Kartoffeln</div>
+          <div class="lapalma-menu-item-allergens">D.A.B.</div>
+          <div class="lapalma-menu-item-price">30,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Seeteufel Filets</div>
+          <div class="lapalma-menu-item-detail">auf Tomaten-Kräuter-Sauce mit Rucola Gnocchi</div>
+          <div class="lapalma-menu-item-allergens">A.B.D</div>
+          <div class="lapalma-menu-item-price">35,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Entenbrust auf Orangen-Sauce</div>
+          <div class="lapalma-menu-item-detail">Bohnen und Rosmarin Kartoffeln</div>
+          <div class="lapalma-menu-item-allergens">D.B.</div>
+          <div class="lapalma-menu-item-price">31,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Iberico-Kotelett</div>
+          <div class="lapalma-menu-item-detail">vom Grill mit Kräutern, Tagesgemüse und Rosmarin Kartoffeln</div>
+          <div class="lapalma-menu-item-allergens">D.B.</div>
+          <div class="lapalma-menu-item-price">29,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Kalbsbäckchen</div>
+          <div class="lapalma-menu-item-detail">in Rotwein geschmort, Broccoli und Kartoffelpüree</div>
+          <div class="lapalma-menu-item-allergens">D.B.</div>
+          <div class="lapalma-menu-item-price">31,50 €</div>
+        </div>
+        <div class="lapalma-menu-item">
+          <div class="lapalma-menu-item-title">Rinderfilet aus Neuseeland</div>
+          <div class="lapalma-menu-item-detail">mit Parmesan-Kräuter Kruste auf Rotwein-Sauce, Tagesgemüse und Rosmarin Kartoffeln</div>
+          <div class="lapalma-menu-item-allergens">D.B.</div>
+          <div class="lapalma-menu-item-price">39,50 €</div>
+        </div>
+      </div>
+      <div class="lapalma-menu-legend">A Fisch, B: Milch, C: Erdnüsse, D: Glutenhaltiges Getreide (Weizen), F: Senf, G: Sojabohnen, E: Schalenfrüchte, I: Eier, L: Krebstiere, M: Sellerie, N: Sesamsamen, P: Schwefeldioxid und Sulphite, S: Lupine, T: Weichtiere, U: Walnüsse, R: Sesam S Pistazien</div>
+    </div>
+  </body>
+</html>
