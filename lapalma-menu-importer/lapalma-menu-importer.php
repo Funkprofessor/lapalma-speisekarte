@@ -79,6 +79,23 @@ function lapalma_menu_date_shortcode()
     return '<div class="lapalma-menu-date">' . esc_html($date) . '</div>';
 }
 
+add_shortcode('lapalma_menu_h1', 'lapalma_menu_h1_shortcode');
+function lapalma_menu_h1_shortcode()
+{
+    $updated_at = (string) get_option(LAPALMA_MENU_UPDATED_OPTION, '');
+    if ($updated_at === '') {
+        return '';
+    }
+
+    $import_timestamp = strtotime($updated_at);
+    if ($import_timestamp === false) {
+        return '';
+    }
+
+    $import_date = date_i18n('j. F', $import_timestamp);
+    return '<h1 class="lapalma-menu-h1">Vom ' . esc_html($import_date) . '</h1>';
+}
+
 function lapalma_menu_importer_render_admin()
 {
     $notice = '';
@@ -132,7 +149,7 @@ function lapalma_menu_importer_render_admin()
     if ($stored !== '') {
         $decoded = json_decode($stored, true);
         if (is_array($decoded)) {
-            $current_html = lapalma_menu_render_html($decoded, '', true);
+            $current_html = lapalma_menu_h1_shortcode() . lapalma_menu_render_html($decoded, '', true);
         }
     }
 
@@ -160,7 +177,7 @@ function lapalma_menu_importer_render_admin()
         echo $current_html;
     }
     echo '<hr>';
-    echo '<p>Shortcodes: <code>[lapalma_menu]</code> (komplette Karte), <code>[lapalma_menu section="Vorspeisen" show_title="no"]</code> (ein Abschnitt ohne Überschrift), <code>[lapalma_menu_date]</code> (Datum)</p>';
+    echo '<p>Shortcodes: <code>[lapalma_menu]</code> (komplette Karte), <code>[lapalma_menu section="Vorspeisen" show_title="no"]</code> (ein Abschnitt ohne Überschrift), <code>[lapalma_menu_date]</code> (Datum), <code>[lapalma_menu_h1]</code> (H1: "Vom 27. Februar")</p>';
     echo '</div>';
 }
 
