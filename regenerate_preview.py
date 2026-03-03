@@ -98,9 +98,25 @@ def parse_text(text: str) -> dict:
     buffer = ""
     legend_lines: list[str] = []
 
-    for line in lines:
+    line_count = len(lines)
+    for i, line in enumerate(lines):
         line = normalize_text(line)
         if re.fullmatch(r"fi(\s+fi)*", line, flags=re.I):
+            next_line = ""
+            for j in range(i + 1, line_count):
+                candidate = normalize_text(lines[j])
+                if candidate:
+                    next_line = candidate
+                    break
+
+            # Keep "fi" when PDF extraction split words like "Rinder" + "fi" + "let".
+            if (
+                buffer
+                and re.search(r"\w$", buffer, flags=re.UNICODE)
+                and next_line
+                and next_line[0].islower()
+            ):
+                buffer += line.replace(" ", "").lower()
             continue
         if re.search(r"--\s*\d+\s*of\s*\d+--", line, re.I):
             continue
@@ -164,7 +180,7 @@ def extract_date_from_filename() -> str:
         }
         if month not in months:
             continue
-        return f"vom {day}. {months[month]} {year}"
+        return f"Vom {day}. {months[month]} {year}"
     today = datetime.now()
     months = {
         1: "Januar",
@@ -180,7 +196,7 @@ def extract_date_from_filename() -> str:
         11: "November",
         12: "Dezember",
     }
-    return f"vom {today.day}. {months[today.month]} {today.year}"
+    return f"Vom {today.day}. {months[today.month]} {today.year}"
 
 
 def render_html(data: dict, css: str, date: str) -> str:
@@ -200,7 +216,7 @@ def render_html(data: dict, css: str, date: str) -> str:
     ]
 
     if date:
-        html.append(f'      <div class="lapalma-menu-date">{escape(date)}</div>')
+        html.append(f'      <h1 class="lapalma-menu-h1">{escape(date)}</h1>')
 
     for title, items in sections.items():
         html.append(f'      <h2 class="lapalma-menu-section-title">{escape(title)}</h2>')

@@ -40,6 +40,21 @@ function lapalma_menu_enqueue_styles()
     wp_enqueue_style('lapalma-menu');
 }
 
+add_action('admin_enqueue_scripts', 'lapalma_menu_enqueue_admin_styles');
+function lapalma_menu_enqueue_admin_styles($hook)
+{
+    if ($hook !== 'toplevel_page_lapalma-menu-importer') {
+        return;
+    }
+
+    wp_enqueue_style(
+        'lapalma-menu',
+        plugins_url('assets/lapalma-menu.css', __FILE__),
+        array(),
+        '0.1.0'
+    );
+}
+
 add_shortcode('lapalma_menu', 'lapalma_menu_shortcode');
 function lapalma_menu_shortcode($atts = array())
 {
@@ -92,7 +107,7 @@ function lapalma_menu_h1_shortcode()
         return '';
     }
 
-    $import_date = date_i18n('j. F', $import_timestamp);
+    $import_date = date_i18n('j. F Y', $import_timestamp);
     return '<h1 class="lapalma-menu-h1">Vom ' . esc_html($import_date) . '</h1>';
 }
 
@@ -149,7 +164,7 @@ function lapalma_menu_importer_render_admin()
     if ($stored !== '') {
         $decoded = json_decode($stored, true);
         if (is_array($decoded)) {
-            $current_html = lapalma_menu_h1_shortcode() . lapalma_menu_render_html($decoded, '', true);
+            $current_html = lapalma_menu_h1_shortcode() . lapalma_menu_render_html($decoded, '', false);
         }
     }
 
@@ -177,7 +192,7 @@ function lapalma_menu_importer_render_admin()
         echo $current_html;
     }
     echo '<hr>';
-    echo '<p>Shortcodes: <code>[lapalma_menu]</code> (komplette Karte), <code>[lapalma_menu section="Vorspeisen" show_title="no"]</code> (ein Abschnitt ohne Überschrift), <code>[lapalma_menu_date]</code> (Datum), <code>[lapalma_menu_h1]</code> (H1: "Vom 27. Februar")</p>';
+    echo '<p>Shortcodes: <code>[lapalma_menu]</code> (komplette Karte), <code>[lapalma_menu section="Vorspeisen" show_title="no"]</code> (ein Abschnitt ohne Überschrift), <code>[lapalma_menu_date]</code> (Datum), <code>[lapalma_menu_h1]</code> (H1: "Vom 27. Februar 2026")</p>';
     echo '</div>';
 }
 
@@ -235,9 +250,29 @@ function lapalma_menu_parse_text($text)
     $buffer = '';
     $legend_lines = array();
 
-    foreach ($lines as $line) {
+    $line_count = count($lines);
+    for ($i = 0; $i < $line_count; $i++) {
+        $line = $lines[$i];
         $line = lapalma_menu_normalize_text($line);
         if (preg_match('/^fi(\s+fi)*$/i', $line)) {
+            $next_line = '';
+            for ($j = $i + 1; $j < $line_count; $j++) {
+                $candidate = lapalma_menu_normalize_text($lines[$j]);
+                if ($candidate !== '') {
+                    $next_line = $candidate;
+                    break;
+                }
+            }
+
+            // Keep "fi" when PDF extraction split words like "Rinder" + "fi" + "let".
+            if (
+                $buffer !== '' &&
+                preg_match('/\p{L}$/u', $buffer) &&
+                $next_line !== '' &&
+                preg_match('/^\p{Ll}/u', $next_line)
+            ) {
+                $buffer .= strtolower(str_replace(' ', '', $line));
+            }
             continue;
         }
         if (preg_match('/--\s*\d+\s*of\s*\d+--/i', $line)) {

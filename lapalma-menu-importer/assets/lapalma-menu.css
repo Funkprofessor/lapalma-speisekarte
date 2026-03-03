@@ -7,6 +7,18 @@
     font-family: inherit;
 }
 
+.lapalma-menu-h1 {
+    margin: 8px 0 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.05;
+    font-weight: 700;
+    color: #1f1f1f;
+    font-family: "Times New Roman", Times, Georgia, serif;
+}
+
 .lapalma-menu-section-title {
     position: relative;
     margin: 44px 0 22px;
@@ -166,6 +178,11 @@
     .lapalma-menu-item-title,
     .lapalma-menu-item-price {
         font-size: 16px;
+    }
+
+    .lapalma-menu-h1 {
+        margin: 6px 0 22px;
+        letter-spacing: 0.06em;
     }
 
     .lapalma-menu-section {
