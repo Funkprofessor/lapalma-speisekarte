@@ -253,32 +253,6 @@ function lapalma_menu_parse_text($text)
     $line_count = count($lines);
     for ($i = 0; $i < $line_count; $i++) {
         $line = $lines[$i];
-        $line = lapalma_menu_normalize_text($line);
-        $line = lapalma_menu_repair_split_ligatures($line);
-        $line = lapalma_menu_repair_missing_fi_tokens($line);
-        if (preg_match('/^fi(\s+fi)*$/i', $line)) {
-            $next_line = '';
-            for ($j = $i + 1; $j < $line_count; $j++) {
-                $candidate = lapalma_menu_normalize_text($lines[$j]);
-                $candidate = lapalma_menu_repair_split_ligatures($candidate);
-                $candidate = lapalma_menu_repair_missing_fi_tokens($candidate);
-                if ($candidate !== '') {
-                    $next_line = $candidate;
-                    break;
-                }
-            }
-
-            // Keep "fi" when PDF extraction split words like "Rinder" + "fi" + "let".
-            if (
-                $buffer !== '' &&
-                preg_match('/\p{L}$/u', $buffer) &&
-                $next_line !== '' &&
-                preg_match('/^\p{Ll}/u', $next_line)
-            ) {
-                $buffer .= strtolower(str_replace(' ', '', $line));
-            }
-            continue;
-        }
         if (preg_match('/--\s*\d+\s*of\s*\d+--/i', $line)) {
             continue;
         }
@@ -305,8 +279,6 @@ function lapalma_menu_parse_text($text)
         }
 
         $buffer = $buffer === '' ? $line : $buffer . ' ' . $line;
-        $buffer = lapalma_menu_repair_split_ligatures($buffer);
-        $buffer = lapalma_menu_repair_missing_fi_tokens($buffer);
         if (strpos($buffer, '€') !== false) {
             $sections = lapalma_menu_push_item($sections, $current_section, $buffer);
             $buffer = '';
@@ -323,39 +295,6 @@ function lapalma_menu_parse_text($text)
         'sections' => $sections,
         'legend' => '',
     );
-}
-
-function lapalma_menu_normalize_text($text)
-{
-    $replacements = array(
-        'ﬁ' => 'fi',
-        'ﬂ' => 'fl',
-        'ﬀ' => 'ff',
-        'ﬃ' => 'ffi',
-        'ﬄ' => 'ffl',
-    );
-    return str_replace(array_keys($replacements), array_values($replacements), $text);
-}
-
-function lapalma_menu_repair_split_ligatures($text)
-{
-    $previous = null;
-    while ($text !== $previous) {
-        $previous = $text;
-        $text = preg_replace('/(\p{L})\s+(ffi|ffl|fi|fl|ff)\s+(\p{Ll})/u', '$1$2$3', $text);
-    }
-    return $text;
-}
-
-function lapalma_menu_repair_missing_fi_tokens($text)
-{
-    $previous = null;
-    while ($text !== $previous) {
-        $previous = $text;
-        $text = preg_replace('/\b(\p{L}+)\s+let(s?)\b/iu', '$1filet$2', $text);
-        $text = preg_replace('/\b(\p{L}+)\s+sch\b/iu', '$1fisch', $text);
-    }
-    return $text;
 }
 
 function lapalma_menu_push_item($sections, $section, $line)

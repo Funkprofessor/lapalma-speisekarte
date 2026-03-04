@@ -98,30 +98,7 @@ def parse_text(text: str) -> dict:
     buffer = ""
     legend_lines: list[str] = []
 
-    line_count = len(lines)
-    for i, line in enumerate(lines):
-        line = normalize_text(line)
-        line = repair_split_ligatures(line)
-        line = repair_missing_fi_tokens(line)
-        if re.fullmatch(r"fi(\s+fi)*", line, flags=re.I):
-            next_line = ""
-            for j in range(i + 1, line_count):
-                candidate = normalize_text(lines[j])
-                candidate = repair_split_ligatures(candidate)
-                candidate = repair_missing_fi_tokens(candidate)
-                if candidate:
-                    next_line = candidate
-                    break
-
-            # Keep "fi" when PDF extraction split words like "Rinder" + "fi" + "let".
-            if (
-                buffer
-                and re.search(r"\w$", buffer, flags=re.UNICODE)
-                and next_line
-                and next_line[0].islower()
-            ):
-                buffer += line.replace(" ", "").lower()
-            continue
+    for line in lines:
         if re.search(r"--\s*\d+\s*of\s*\d+--", line, re.I):
             continue
         if re.match(r"^A\b.*:\s*", line) and "Glutenhaltiges" in line:
@@ -140,8 +117,6 @@ def parse_text(text: str) -> dict:
             sections.setdefault(current_section, [])
 
         buffer = line if not buffer else f"{buffer} {line}"
-        buffer = repair_split_ligatures(buffer)
-        buffer = repair_missing_fi_tokens(buffer)
         if "€" in buffer:
             sections.setdefault(current_section, []).append(parse_item_line(buffer))
             buffer = ""
@@ -150,34 +125,6 @@ def parse_text(text: str) -> dict:
         sections.setdefault(current_section or "Speisekarte", []).append(parse_item_line(buffer))
 
     return {"sections": sections, "legend": ""}
-
-
-def normalize_text(text: str) -> str:
-    return (
-        text.replace("ﬁ", "fi")
-        .replace("ﬂ", "fl")
-        .replace("ﬀ", "ff")
-        .replace("ﬃ", "ffi")
-        .replace("ﬄ", "ffl")
-    )
-
-
-def repair_split_ligatures(text: str) -> str:
-    previous = None
-    pattern = re.compile(r"([^\W\d_])\s+(ffi|ffl|fi|fl|ff)\s+([a-zäöüß])", flags=re.IGNORECASE | re.UNICODE)
-    while text != previous:
-        previous = text
-        text = pattern.sub(r"\1\2\3", text)
-    return text
-
-
-def repair_missing_fi_tokens(text: str) -> str:
-    previous = None
-    while text != previous:
-        previous = text
-        text = re.sub(r"\b([^\W\d_]+)\s+let(s?)\b", r"\1filet\2", text, flags=re.IGNORECASE | re.UNICODE)
-        text = re.sub(r"\b([^\W\d_]+)\s+sch\b", r"\1fisch", text, flags=re.IGNORECASE | re.UNICODE)
-    return text
 
 
 def extract_date_from_filename() -> str:
